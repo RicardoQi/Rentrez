@@ -1,0 +1,51 @@
+---
+title: "Analysis"
+author: "RicardoQi"
+date: "2022/2/15"
+output: html_document
+---
+This analysis focuses on the topic of Lyme Disease and Borrelia burgdorferi. This script provides analysis for former R codes, and makes statistical comparison between data.\n
+![The picture of Borrelia burgdorferi. Retrieved from: Bay Area Lyme Foundation.](C:\\Users\\qi199\\Documents\\Rentrez\\borrelia-burgdorferi.jpg){width=50%} \n
+Here is also a [link directs you to the Wikipedia page about Borrelia burgdorferi](https://en.wikipedia.org/wiki/Borrelia_burgdorferi) 
+
+## Steps
+First, the csv file is imported.
+```{r}
+Sequences <- read.csv("Sequences.csv")
+```
+Then, each sequence is separated and printed
+```{r}
+r1 <- Sequences$Sequence[1]
+print(r1)
+r2 <- Sequences$Sequence[2]
+print(r2)
+r3 <- Sequences$Sequence[3]
+print(r3)
+```
+The tables that count for the amount of ATCG of each sequence are provided.
+```{r}
+table(strsplit(r1, "")[[1]])
+table(strsplit(r2, "")[[1]])
+table(strsplit(r3, "")[[1]])
+```
+Next, the GC contents of each sequence are calculated.
+```{r}
+library(stringr)
+id <- sub("(^.)", "\\1.", Sequences$Name)
+id1 <- word(id, 1, sep = fixed(' '))
+
+num_c1 <- str_count(r1, "C")
+num_g1 <- str_count(r1, "G")
+gc1 <- (num_g1 + num_c1) / str_length(r1) * 100 
+
+num_c2 <- str_count(r2, "C")
+num_g2 <- str_count(r2, "G")
+gc2 <- (num_g2 + num_c2) / str_length(r2) * 100
+
+num_c3 <- str_count(r3, "C")
+num_g3 <- str_count(r3, "G")
+gc3 <- (num_g3 + num_c3) / str_length(r3) * 100 
+
+gc <- c(gc1,gc2,gc3)
+table(id1,gc)
+```
